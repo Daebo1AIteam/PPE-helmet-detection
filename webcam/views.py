@@ -30,7 +30,7 @@ tf.keras.backend.set_session(tf.Session(config=config))
 
 def stream():
 	config_path = 'webcam/config.json'
-	num_cam = 1
+	num_cam = 3
 	with open(config_path) as config_buffer:
 		config = json.load(config_buffer)
 
