@@ -87,7 +87,9 @@ def stream():
 				trackers[i].predict()
 				trackers[i].update(detections)
 
-
+				n_without_helmet = 0
+				n_with_helmet = 0 
+				
 				for track in trackers[i].tracks:
 					if not track.is_confirmed() or track.time_since_update > 1:
 						continue
