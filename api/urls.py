@@ -18,9 +18,14 @@ from django.contrib import admin
 from django.contrib import admin
 from django.urls import path
 from webcam.views import video_feed_1
+from user.views import *
+
+
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('video_feed_1/', video_feed_1, name="video-feed-1")
+    path('video_feed_1/', video_feed_1, name="video-feed-1"),
+    path('signup/',SignUpView.as_view(),name='signUp'),
+    path('', HomePageView.as_view(), name="home"),
 ]

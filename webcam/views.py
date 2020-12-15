@@ -22,7 +22,7 @@ file_path = os.path.join(BASE_DIR, 'relative_path')
 import warnings
 warnings.filterwarnings("ignore")
 
-import winsound
+#import winsound
 
 
 config = tf.ConfigProto()
@@ -64,11 +64,11 @@ def stream():
 	# the main loop
 	batch_size = num_cam
 	images = []
-
+	"""
 	no_helmet_time = 0
 	duration = 3000 # milliseconds
 	freq = 440 # Hz
-
+	"""
 	while True:
 		for i in range(num_cam):
 			ret_val, image = video_readers[i].read()
@@ -124,7 +124,7 @@ def stream():
 				if(n_without_helmet):
 					
 				"""
-
+				"""
 				if n_without_helmet > 0 : 
 					no_helmet_time += 1
 				else :
@@ -134,7 +134,7 @@ def stream():
 				if no_helmet_time >= 10 : 
 					winsound.Beep(freq ,duration)
 					no_helmet_time -= 2
-
+				"""
 			#ret, jpeg = cv2.imencode('.jpg', images[i])
 				#frame = jpeg.tobytes()
 				#cv2.imwrite('demo.jpg', frame)
