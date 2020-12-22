@@ -18,9 +18,41 @@ from django.contrib import admin
 from django.contrib import admin
 from django.urls import path
 from webcam.views import video_feed_1
+from picture.views import PictureViewSet
+from rest_framework import routers
+
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+from django.conf.urls import url
 
 
-urlpatterns = [
+urlpatterns = []
+router = routers.SimpleRouter()
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Snippets API",
+      default_version='v1',
+      description="Test description",
+      terms_of_service="https://www.google.com/policies/terms/",
+      contact=openapi.Contact(email="contact@snippets.local"),
+      license=openapi.License(name="BSD License"),
+   ),
+   validators=['flex', 'ssv'],
+   public=True,
+   permission_classes=(permissions.AllowAny,),
+)
+
+router.register(
+    r'^v1/pictures',PictureViewSet,basename='picture'
+)
+
+
+urlpatterns.extend([
     path('admin/', admin.site.urls),
-    path('video_feed_1/', video_feed_1, name="video-feed-1")
-]
+    path('video_feed_1/', video_feed_1, name="video-feed-1"),
+    url(r'^doc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+])
+urlpatterns.extend(router.urls)
