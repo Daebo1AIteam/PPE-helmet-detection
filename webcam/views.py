@@ -2,7 +2,8 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.http.response import StreamingHttpResponse
-
+from django.db import transaction
+from .models import Picture
 
 import json
 import cv2
@@ -18,11 +19,11 @@ import os
 from api.settings import BASE_DIR
 file_path = os.path.join(BASE_DIR, 'relative_path')
 
-
+from datetime import datetime
 import warnings
 warnings.filterwarnings("ignore")
 
-import winsound
+#import winsound
 
 
 config = tf.ConfigProto()
@@ -31,6 +32,7 @@ tf.keras.backend.set_session(tf.Session(config=config))
 
 """DISPLAY CAMERA"""
 def stream():
+
 	config_path = 'webcam/config.json'
 	num_cam = 1
 	with open(config_path) as config_buffer:
@@ -120,8 +122,19 @@ def stream():
 				print("Persons with helmet = " + str(n_with_helmet))
 				#cv2.imshow('Cam' + str(i), images[i])
 				cv2.imwrite('demo.jpg', images[i])
+
+				if n_without_helmet >= 1:
+					filename = datetime.today().strftime("%Y%m%d%H%M%S")
+					cv2.imwrite('picture/{}demo.jpg'.format(filename), images[i])
+
+					with transaction.atomic():
+						picture = Picture(picture_name=filename)
+						picture.save()
+
+
 				yield (b'--frame\r\n'
 					   	   b'Content-Type: image/jpeg\r\n\r\n' + open('demo.jpg', 'rb').read() + b'\r\n')
+
 				"""
 				if(n_without_helmet):
 					
@@ -136,7 +149,7 @@ def stream():
 
 				print("no_helmet_time : " + str(no_helmet_time))
 				if no_helmet_time >= 10 : 
-					winsound.Beep(freq ,duration)
+					#winsound.Beep(freq ,duration)
 					no_helmet_time -= 2
 
 			#ret, jpeg = cv2.imencode('.jpg', images[i])
@@ -146,10 +159,10 @@ def stream():
 				#	   b'Content-Type: image/jpeg\r\n\r\n' + open('demo.jpg', 'rb').read() + b'\r\n')
 			images = []
 
-def return_today_no_helmet_count(request):
-	return 
+
 
 """FEED VIDEO"""
 def video_feed_1(request):
-    return StreamingHttpResponse(stream(), content_type='multipart/x-mixed-replace; boundary=frame')
+	return StreamingHttpResponse(stream(), content_type='multipart/x-mixed-replace; boundary=frame')
+
 
