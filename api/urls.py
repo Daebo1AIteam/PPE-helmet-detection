@@ -18,9 +18,19 @@ from django.contrib import admin
 from django.contrib import admin
 from django.urls import path
 from webcam.views import video_feed_1
+from picture.views import PictureViewSet
+from rest_framework import routers
+
+router = routers.SimpleRouter()
 
 
-urlpatterns = [
+urlpatterns = []
+router.register(
+    r'^v1/pictures',PictureViewSet,basename='picture'
+)
+
+urlpatterns.extend([
     path('admin/', admin.site.urls),
     path('video_feed_1/', video_feed_1, name="video-feed-1")
-]
+])
+urlpatterns.extend(router.urls)
