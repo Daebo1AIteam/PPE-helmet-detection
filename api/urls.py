@@ -16,7 +16,7 @@ Including another URLconf
 from django.urls import path
 from django.contrib import admin
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include 
 from webcam.views import video_feed_1
 from picture.views import PictureViewSet
 from rest_framework import routers
@@ -26,6 +26,8 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
 from django.conf.urls import url
+
+from user.views import kakao_login, kakao_callback
 
 
 urlpatterns = []
@@ -52,6 +54,11 @@ router.register(
 
 urlpatterns.extend([
     path('admin/', admin.site.urls),
+    # kakao
+    path('account/login/kakao/', kakao_login, name='kakao_login'),
+    path('account/login/kakao/callback/', kakao_callback, name='kakao_callback'),
+
+    # webcam
     path('video_feed_1/', video_feed_1, name="video-feed-1"),
     url(r'^doc/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ])
