@@ -53,6 +53,6 @@ router.register(
 urlpatterns.extend([
     path('admin/', admin.site.urls),
     path('video_feed_1/', video_feed_1, name="video-feed-1"),
-    url(r'^doc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    url(r'^doc/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ])
 urlpatterns.extend(router.urls)

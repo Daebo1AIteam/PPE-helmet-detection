@@ -23,9 +23,9 @@ from datetime import datetime
 import warnings
 
 warnings.filterwarnings("ignore")
+from django.core.files import File
 
 # import winsound
-
 
 
 config = tf.ConfigProto()
@@ -126,10 +126,13 @@ def stream():
 
                 if n_without_helmet >= 1:
                     filename = datetime.today().strftime("%Y%m%d%H%M%S")
-                    cv2.imwrite('picture/{}demo.jpg'.format(filename), images[i])
-
+                    cv2.imwrite('picture/{}.jpg'.format(filename), images[i])
                     with transaction.atomic():
                         picture = Picture(picture_name=filename)
+                        # picture.picture_file = img
+#                        reopen = open('picture/{}.jpg'.format(filename),'rb')
+#                        django_file = File(reopen)
+#                        picture.picture_image.save('picture/{}.jpg', django_file, save = True)
                         picture.save()
 
                 yield (b'--frame\r\n'
@@ -137,7 +140,7 @@ def stream():
 
                 """
 				if(n_without_helmet):
-					
+
 				"""
 
                 if n_without_helmet > 0:
