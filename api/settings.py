@@ -40,9 +40,33 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'webcam',
     'drf_yasg',
-    'picture'
+    'picture',
+
+    'user',
+
+    # kakao 
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'rest_framework.authtoken',
+    'rest_auth',
+    'rest_auth.registration',
+
+    'allauth.socialaccount.providers.kakao'
 ]
 
+SITE_ID = 1
+
+SOCIALACCOUNT_PROVIDERS = {
+    'kakao': {
+        'APP': {
+            'client_id': 'a02e0d55e3c3e558db7f944f5d746ac1',
+            'secret': 450585,
+            'key': '463144'
+        }
+    }
+}
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
