@@ -27,7 +27,7 @@ from drf_yasg import openapi
 
 from django.conf.urls import url
 
-from user.views import kakao_login, kakao_callback
+#from user.views import kakao_login, kakao_callback
 
 
 urlpatterns = []
@@ -56,8 +56,8 @@ urlpatterns.extend([
     path('admin/', admin.site.urls),
     
     # kakao
-    path('account/login/kakao/', kakao_login, name='kakao_login'),
-    path('account/login/kakao/callback/', kakao_callback, name='kakao_callback'),
+#    path('account/login/kakao/', kakao_login, name='kakao_login'),
+#    path('account/login/kakao/callback/', kakao_callback, name='kakao_callback'),
 
     # webcam
     path('video_feed_1/', video_feed_1, name="video-feed-1"),

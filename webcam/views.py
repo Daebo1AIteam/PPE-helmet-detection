@@ -129,10 +129,6 @@ def stream():
                     cv2.imwrite('picture/{}.jpg'.format(filename), images[i])
                     with transaction.atomic():
                         picture = Picture(picture_name=filename)
-                        # picture.picture_file = img
-#                        reopen = open('picture/{}.jpg'.format(filename),'rb')
-#                        django_file = File(reopen)
-#                        picture.picture_image.save('picture/{}.jpg', django_file, save = True)
                         picture.save()
 
                 yield (b'--frame\r\n'
