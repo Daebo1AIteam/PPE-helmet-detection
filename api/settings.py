@@ -62,8 +62,8 @@ SOCIALACCOUNT_PROVIDERS = {
     'kakao': {
         'APP': {
             'client_id': 'a02e0d55e3c3e558db7f944f5d746ac1',
-            'secret': 450585,
-            'key': '463144'
+            'secret': 463144,
+            'key': ''
         }
     }
 }
@@ -131,6 +131,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Media
+MEDIA_URL = "/picture/"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'picture/') # 서버에 올리면 우분투 절대경로 넣기
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
