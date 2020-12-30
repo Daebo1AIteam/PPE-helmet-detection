@@ -3,8 +3,8 @@ from django.shortcuts import render
 # Create your views here.
 from django.http.response import StreamingHttpResponse
 from django.db import transaction
-from .models import Picture
-from .serializers import PictureSerializer
+from picture.models import Picture,Statstics
+
 import json
 import cv2
 import tensorflow as tf
@@ -18,12 +18,16 @@ from .utils.bbox import draw_box_with_id
 import os
 from api.settings import BASE_DIR
 
+
 file_path = os.path.join(BASE_DIR, 'relative_path')
+
 from datetime import datetime
+import datetime as dt
+
 import warnings
 
 warnings.filterwarnings("ignore")
-from django.core.files import File
+
 
 # import winsound
 
@@ -73,6 +77,10 @@ def stream():
     freq = 880  # Hz
 
     today_no_helmet_count = 0
+    current_date = dt.datetime.now()
+    current_date = current_date.strftime('%Y-%m-%d')
+
+
 
     while True:
         for i in range(num_cam):
@@ -130,14 +138,20 @@ def stream():
                     with transaction.atomic():
                         picture = Picture(picture_name=filename)
                         picture.save()
+                        if Statstics.objects.filter(created_date=current_date).exists():
+                            statistic = Statstics.objects.get(created_date=current_date)
+                        else:
+                            statistic = Statstics(created_date = current_date)
+                        statistic.count += 1
+                        statistic.save()
+
 
                 yield (b'--frame\r\n'
                        b'Content-Type: image/jpeg\r\n\r\n' + open('demo.jpg', 'rb').read() + b'\r\n')
 
                 """
-				if(n_without_helmet):
-
-				"""
+                if(n_without_helmet):
+                """
 
                 if n_without_helmet > 0:
                     no_helmet_time += 1
@@ -164,6 +178,3 @@ def stream():
 
 def video_feed_1(request):
     return StreamingHttpResponse(stream(), content_type='multipart/x-mixed-replace; boundary=frame')
-
-
-
