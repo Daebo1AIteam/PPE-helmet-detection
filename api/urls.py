@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.contrib import admin
 from django.urls import path, include 
 from webcam.views import video_feed_1
-from picture.views import PictureViewSet
+from picture.views import PictureViewSet,StatsticsViewSet
 from rest_framework import routers
 
 from rest_framework import permissions
@@ -49,6 +49,10 @@ schema_view = get_schema_view(
 
 router.register(
     r'^v1/pictures',PictureViewSet,basename='picture'
+)
+
+router.register(
+    r'^v1/statistics', StatsticsViewSet, basename='picture'
 )
 
 
